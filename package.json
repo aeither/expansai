@@ -12,8 +12,13 @@
   "dependencies": {
     "@twa-dev/mark42": "^0.0.38",
     "@twa-dev/sdk": "^6.9.0",
+    "@web3-name-sdk/register": "^0.0.1-beta.1",
+    "@web3modal/wagmi": "^3.0.0-beta.4",
+    "ethers": "^5.7.2",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "viem": "^1.12.1",
+    "wagmi": "^1.4.2"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
