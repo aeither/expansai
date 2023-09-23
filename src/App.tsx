@@ -20,14 +20,15 @@ import { arbitrum, mainnet } from "wagmi/chains";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
 
 // 1. Get projectId
-const projectId = "ceddf10b20007fb16748271c44f7f7d4";
+if (!import.meta.env.VITE_PROJECT_ID) throw new Error('VITE_PROJECT_ID not found')
+const projectId = import.meta.env.VITE_PROJECT_ID
 
 // 2. Create wagmiConfig
 const chains = [mainnet, arbitrum];
 const wagmiConfig = defaultWagmiConfig({
   chains,
   projectId,
-  appName: "Web3Modal",
+  appName: "Expansai",
 });
 
 // 3. Create modal
