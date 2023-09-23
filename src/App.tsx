@@ -7,12 +7,12 @@ import {
   Switch,
 } from "@twa-dev/mark42";
 import WebApp from "@twa-dev/sdk";
-import { BackButton, MainButton } from "@twa-dev/sdk/react";
+import { MainButton } from "@twa-dev/sdk/react";
+import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 import { useState } from "react";
 import "./App.css";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import { createWeb3Modal, defaultWagmiConfig } from "@web3modal/wagmi/react";
 
 import { WagmiConfig } from "wagmi";
 import { arbitrum, mainnet } from "wagmi/chains";
@@ -58,8 +58,27 @@ function App() {
           <a href="https://vitejs.dev" target="_blank">
             <img src={viteLogo} className="logo" alt="Vite logo" />
           </a>
-          <MainButton text="Submit" onClick={() => alert("submitted")} />
-          <BackButton onClick={() => alert("back")} />
+          <button onClick={() => WebApp.expand()}>Expand</button>
+          <button
+            onClick={() => {
+              WebApp.initData;
+              console.log(
+                "🚀 ~ file: App.tsx:63 ~ App ~ ebApp.initData:",
+                WebApp.initData
+              );
+            }}
+          >
+            initData
+          </button>
+          <button onClick={() => WebApp.showScanQrPopup({ text: "hello" })}>
+            showScanQrPopup
+          </button>
+          <button onClick={() => WebApp.switchInlineQuery("switch to inline")}>
+            switchInlineQuery
+          </button>
+
+          <MainButton text="Close" onClick={() => WebApp.close()} />
+          {/* <BackButton onClick={() => alert("back")} /> */}
           <Page mode="secondary">
             <Section
               description="Share your contacts with the community. It will help other members to reach you faster."
