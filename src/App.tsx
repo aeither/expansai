@@ -13,11 +13,14 @@ import { useState } from "react";
 import "./App.css";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-
 import { WagmiConfig } from "wagmi";
 import { arbitrum, mainnet } from "wagmi/chains";
-
 import { useWeb3Modal } from "@web3modal/wagmi/react";
+import SID from '@siddomains/sidjs';
+import * as SIDfunctions from '@siddomains/sidjs';
+import { providers } from 'ethers';
+
+let sid;
 
 // 1. Get projectId
 if (!import.meta.env.VITE_PROJECT_ID) throw new Error('VITE_PROJECT_ID not found')
@@ -52,6 +55,14 @@ function App() {
     WebApp.CloudStorage.getItem("test", (_, result) => console.log(result));
   };
 
+  async function resolveBnb(name: string) {
+    const rpc = "https://data-seed-prebsc-1-s1.binance.org:8545/";
+    const provider = new providers.JsonRpcProvider(rpc);
+    sid = new SID({ provider, sidAddress: SIDfunctions.getSidAddress('97') });
+    const address = await sid.name(name).getAddress(); // 0x123
+    console.log("name: %s, address: %s", name, address);
+  }
+
   return (
     <>
       <WagmiConfig config={wagmiConfig}>
@@ -59,6 +70,10 @@ function App() {
           <a href="https://vitejs.dev" target="_blank">
             <img src={viteLogo} className="logo" alt="Vite logo" />
           </a>
+          <button onClick={() => resolveBnb("felix.bnb")}>
+          resolveBnb
+          </button>
+
           <button onClick={() => WebApp.expand()}>Expand</button>
           <button
             onClick={() => {

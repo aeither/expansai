@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@siddomains/sidjs": "^0.1.29",
     "@twa-dev/mark42": "^0.0.38",
     "@twa-dev/sdk": "^6.9.0",
     "@web3-name-sdk/register": "^0.0.1-beta.1",
