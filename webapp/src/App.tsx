@@ -11,6 +11,10 @@ import { MainButton } from "@twa-dev/sdk/react";
 import { useState } from "react";
 import "./App.css";
 
+if (!import.meta.env.VITE_BACKEND_URL)
+throw new Error("VITE_BACKEND_URL not found");
+const backendURL = import.meta.env.VITE_BACKEND_URL;
+
 // // 1. Get projectId
 // if (!import.meta.env.VITE_PROJECT_ID)
 //   throw new Error("VITE_PROJECT_ID not found");
@@ -55,11 +59,12 @@ function App() {
 
   async function resolveBnb2(name: string) {
     const response = await fetch(
-      `https://api.prd.space.id/v1/getAddress?tld=bnb&domain=${name}`
+      `${backendURL}/${name}`
     );
-    const data = await response.json();
+    console.log("🚀 ~ file: App.tsx:60 ~ resolveBnb2 ~ response:", response)
+    // const data = await response.json();
     WebApp.showAlert("resolved");
-    console.log("🚀 ~ file: App.tsx:70 ~ resolveBnb ~ data:", data);
+    // console.log("🚀 ~ file: App.tsx:70 ~ resolveBnb ~ data:", data);
   }
 
   return (
