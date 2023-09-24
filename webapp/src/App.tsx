@@ -62,9 +62,10 @@ function App() {
       `${backendURL}/${name}`
     );
     console.log("🚀 ~ file: App.tsx:60 ~ resolveBnb2 ~ response:", response)
-    // const data = await response.json();
+    const data = await response.text()
+    console.log("🚀 ~ file: App.tsx:70 ~ resolveBnb ~ data:", data);
+    
     WebApp.showAlert("resolved");
-    // console.log("🚀 ~ file: App.tsx:70 ~ resolveBnb ~ data:", data);
   }
 
   return (
