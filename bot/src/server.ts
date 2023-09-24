@@ -1,5 +1,5 @@
-import { bot } from './bot.ts'
-import { webhookCallback } from './deps.ts'
+import { bot } from './bot.js'
+import { webhookCallback } from './deps.js'
 
 const handleUpdate = webhookCallback(bot, 'std/http')
 

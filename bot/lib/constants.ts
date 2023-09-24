@@ -1,4 +1,4 @@
-import { load } from '../src/deps.ts'
+import { load } from '../src/deps.js'
 
 // export dotenv to Deno.env
 await load({ export: true })
