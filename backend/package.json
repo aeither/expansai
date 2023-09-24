@@ -1,0 +1,17 @@
+{
+  "name": "expansai-bun-backend",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run --hot src/index.ts"
+  },
+  "devDependencies": {
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "elysia": "^0.7.12"
+  }
+}
