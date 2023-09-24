@@ -1,17 +1,11 @@
 {
-  "name": "elysia",
-  "version": "1.0.50",
+  "license": "MIT",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "bun build --target=bun ./src/index.ts --outfile=dir/server.js",
-    "dev": "bun --hot src/index.ts",
-    "start": "bun src/index.ts"
-  },
-  "dependencies": {
-    "elysia": "latest"
+    "start": "bun app.ts",
+    "dev": "bun --hot app.ts"
   },
   "devDependencies": {
-    "bun-types": "latest"
-  },
-  "module": "src/index.js"
+    "bun-types": "^1.0.1"
+  }
 }

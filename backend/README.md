@@ -1,15 +1,43 @@
-# Elysia with Bun runtime
+# bun-docker
 
-## Getting Started
-To get started with this template, simply paste this command into your terminal:
-```bash
-bun create elysia ./elysia-example
-```
+> Deploy a simple Bun [HTTP server](https://bun.sh/docs/api/http) on Render
 
-## Development
-To start the development server run:
-```bash
-bun run dev
-```
+[Bun](https://bun.sh/) is a fast JavaScript runtime that serves as a bundler, test runner, and package manager.
 
-Open http://localhost:3000/ with your browser to see the result.
+## Prerequisites
+
+Refer to the [Bun documentation](https://bun.sh/docs/installation) to install Bun.
+
+## Usage
+
+### `bun install`
+
+To run this app locally, first run `bun install` to install the dependencies.
+
+### `bun dev`
+
+Run `bun dev` or `bun run dev` to start the server locally.
+
+Running the app in dev uses the [`--hot` reload flag](https://bun.sh/docs/runtime/hot#hot-mode), which Bun uses to re-run changed files without restarting the `bun` process.
+
+If no `process.env.PORT` is specified, the server will run on port `8081`. Visit [http://localhost:8081](http://localhost:8081) to view the app.
+
+### `bun start`
+
+Run `bun start` or `bun run start` to start the server locally without the `--hot` reload flag.
+
+## Deploy to Render
+
+Use the official [Bun Docker image](https://hub.docker.com/r/oven/bun) to deploy this app to Render.
+
+### Manual deploy
+
+1. [Fork this repo](https://github.com/render-examples/bun-docker/fork) on GitHub or click **Use this template**.
+2. Create a new **web service** on Render, and give Render permission to access your new repo.
+3. Select **Docker** as your service's runtime.
+
+That's it! Your web service will be live on your Render URL as soon as the build finishes.
+
+### One-click deploy
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/bun-docker)
