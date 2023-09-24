@@ -7,7 +7,7 @@ interface TransactionData {
 
 
 const app = new Elysia()
-  .get("/", () => "Hello!!!")
+  .get("/", () => "Hello World!!!")
   .get("/:name", async ({ params: { name } }) => {
     const response = await fetch(
       `https://api.prd.space.id/v1/getAddress?tld=bnb&domain=${name}`
