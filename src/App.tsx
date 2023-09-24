@@ -16,15 +16,16 @@ import viteLogo from "/vite.svg";
 import { WagmiConfig } from "wagmi";
 import { arbitrum, mainnet } from "wagmi/chains";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import SID from '@siddomains/sidjs';
-import * as SIDfunctions from '@siddomains/sidjs';
-import { providers } from 'ethers';
+import SID from "@siddomains/sidjs";
+import * as SIDfunctions from "@siddomains/sidjs";
+import { providers } from "ethers";
 
 let sid;
 
 // 1. Get projectId
-if (!import.meta.env.VITE_PROJECT_ID) throw new Error('VITE_PROJECT_ID not found')
-const projectId = import.meta.env.VITE_PROJECT_ID
+if (!import.meta.env.VITE_PROJECT_ID)
+  throw new Error("VITE_PROJECT_ID not found");
+const projectId = import.meta.env.VITE_PROJECT_ID;
 
 // 2. Create wagmiConfig
 const chains = [mainnet, arbitrum];
@@ -58,9 +59,16 @@ function App() {
   async function resolveBnb(name: string) {
     const rpc = "https://data-seed-prebsc-1-s1.binance.org:8545/";
     const provider = new providers.JsonRpcProvider(rpc);
-    sid = new SID({ provider, sidAddress: SIDfunctions.getSidAddress('97') });
+    sid = new SID({ provider, sidAddress: SIDfunctions.getSidAddress("97") });
     const address = await sid.name(name).getAddress(); // 0x123
     console.log("name: %s, address: %s", name, address);
+  }
+
+  async function resolveBnb2(name: string) {
+    const response = await fetch(`https://api.prd.space.id/v1/getAddress?tld=bnb&domain=${name}`);
+    const data = await response.json()
+    WebApp.showAlert("resolved")
+    console.log("🚀 ~ file: App.tsx:70 ~ resolveBnb ~ data:", data)
   }
 
   return (
@@ -70,9 +78,8 @@ function App() {
           <a href="https://vitejs.dev" target="_blank">
             <img src={viteLogo} className="logo" alt="Vite logo" />
           </a>
-          <button onClick={() => resolveBnb("felix.bnb")}>
-          resolveBnb
-          </button>
+          <button onClick={() => resolveBnb("felix.bnb")}>resolveBnb</button>
+          <button onClick={() => resolveBnb2("felix.bnb")}>resolveBnb2</button>
 
           <button onClick={() => WebApp.expand()}>Expand</button>
           <button
