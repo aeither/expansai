@@ -5,15 +5,14 @@ interface TransactionData {
   address: string;
 }
 
-
 const app = new Elysia()
-  .get("/", () => "Hello World!!!")
+  .get("/", (() => "Hello World!!!"))
   .get("/:name", async ({ params: { name } }) => {
     const response = await fetch(
       `https://api.prd.space.id/v1/getAddress?tld=bnb&domain=${name}`
     );
     const data: TransactionData = await response.json();
-    return data.address // return 0x0000000000000000000000000000000000000000 if does not exist
+    return data.address; // return 0x0000000000000000000000000000000000000000 if does not exist
   })
   .listen(8080);
 
