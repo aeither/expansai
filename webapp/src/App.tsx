@@ -9,14 +9,15 @@ import {
 import WebApp from "@twa-dev/sdk";
 import { MainButton } from "@twa-dev/sdk/react";
 import { useState } from "react";
+import { StreamrClient } from 'streamr-client';
 import "./App.css";
-import StreamrClient from "streamr-client";
+
 
 if (!import.meta.env.VITE_BACKEND_URL)
   throw new Error("VITE_BACKEND_URL not found");
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
-// // 1. Get projectId
+// // 1. Get projectId∏
 // if (!import.meta.env.VITE_PROJECT_ID)
 //   throw new Error("VITE_PROJECT_ID not found");
 // const projectId = import.meta.env.VITE_PROJECT_ID;
