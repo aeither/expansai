@@ -10,7 +10,7 @@ const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
 export const DOMAIN_STREAM_ID =
   "0x5052936d3c98d2d045da4995d37b0dae80c6f07f/test-weather";
 
-function getRandomCategory(categories) {
+function getRandomCategory(categories: string[]) {
   const randomIndex = Math.floor(Math.random() * categories.length);
   return categories[randomIndex];
 }
@@ -39,6 +39,14 @@ const categories = [
   "Hobbies and Crafts",
 ];
 
+function arrayToPhrase(inputArray: Array<string>) {
+  // Join the array elements into a single string
+  const phrase = inputArray.join("");
+
+  // Remove leading and trailing whitespace and return the result
+  return phrase.trim();
+}
+
 // Function to generate a single data point
 export const generateDomains = async () => {
   const replicate = new Replicate({
@@ -55,7 +63,7 @@ export const generateDomains = async () => {
     }
   );
 
-  return output;
+  return arrayToPhrase(output as string[]);
 };
 
 export const startPublisherService = async () => {
