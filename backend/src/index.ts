@@ -1,7 +1,13 @@
-import { Elysia } from "elysia";
 import { cors } from "@elysiajs/cors";
+import { Elysia } from "elysia";
+import Replicate from "replicate";
 import StreamrClient from "streamr-client";
-import { domainListGenerator } from "./utils";
+import dotenv from "dotenv";
+dotenv.config();
+
+if (!process.env.REPLICATE_API_TOKEN)
+  throw new Error("REPLICATE_API_TOKEN not found");
+const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN;
 
 interface TransactionData {
   code: number;
@@ -14,18 +20,34 @@ export const DOMAIN_STREAM_ID =
 const app = new Elysia()
   .use(cors())
   .get("/", async () => {
-    const options = {
-      method: "GET",
-      headers: { "User-Agent": "insomnia/2023.5.8" },
-    };
+    // const options = {
+    //   method: "GET",
+    //   headers: { "User-Agent": "insomnia/2023.5.8" },
+    // };
 
     try {
-      const response = await fetch("https://api.namefake.com/", options);
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.json();
-      return data.name;
+      // const response = await fetch("https://api.namefake.com/", options);
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! Status: ${response.status}`);
+      // }
+      // const data = await response.json();
+
+      const replicate = new Replicate({
+        auth: REPLICATE_API_TOKEN,
+      });
+
+      const output = await replicate.run(
+        "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
+        {
+          input: {
+            prompt:
+              "Show 10 domain name ideas ending in .bnb. answer me only the domains without introduction",
+          },
+        }
+      );
+      console.log("domain names generated");
+
+      return output;
     } catch (err) {
       console.error(err);
       throw err; // Re-throw the error to propagate it to the caller, if needed
@@ -46,18 +68,35 @@ console.log(
   `🦊 Elysia is running at on port ${app.server?.port}... \n Open: http://localhost:8080`
 );
 
-// export const startPublisherService = () => {
-//   const streamr: StreamrClient = new StreamrClient({
-//     auth: {
-//       privateKey: process.env.PRIVATE_KEY || "",
-//     },
-//   });
+const generateDomains = async () => {
+  const replicate = new Replicate({
+    auth: REPLICATE_API_TOKEN,
+  });
 
-//   // We prentend that 1 sec equals 1 min in this example
-//   setInterval(async () => {
-//     const dataPoint = generateDataPoint();
-//     await streamr.publish(WEATHER_STREAM_ID, dataPoint);
-//     console.log("published:", dataPoint);
-//   }, 1000);
-// };
-// startPublisherService();
+  const output = await replicate.run(
+    "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
+    {
+      input: {
+        prompt:
+          "Show 10 domain name ideas ending in .bnb. answer me only the domains without introduction",
+      },
+    }
+  );
+
+  return output;
+};
+export const startPublisherService = async () => {
+  const streamr: StreamrClient = new StreamrClient({
+    auth: {
+      privateKey: process.env.PRIVATE_KEY || "",
+    },
+  });
+
+  // We prentend that 1 sec equals 1 min in this example
+  setInterval(async () => {
+    const dataPoint = generateDomains();
+    await streamr.publish(DOMAIN_STREAM_ID, dataPoint);
+    console.log("published:", dataPoint);
+  }, 30_000);
+};
+startPublisherService();
