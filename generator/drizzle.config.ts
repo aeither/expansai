@@ -5,7 +5,7 @@ dotenv.config();
 if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL not found");
 
 export default {
-  schema: "./schema/*",
+  schema: "./src/schema/*",
   out: "./drizzle",
   driver: "pg",
   dbCredentials: {
