@@ -10,9 +10,10 @@ import WebApp from "@twa-dev/sdk";
 import { MainButton } from "@twa-dev/sdk/react";
 import { useState } from "react";
 import "./App.css";
+import StreamrClient from "streamr-client";
 
 if (!import.meta.env.VITE_BACKEND_URL)
-throw new Error("VITE_BACKEND_URL not found");
+  throw new Error("VITE_BACKEND_URL not found");
 const backendURL = import.meta.env.VITE_BACKEND_URL;
 
 // // 1. Get projectId
@@ -58,15 +59,34 @@ function App() {
   // }
 
   async function resolveBnb2(name: string) {
-    const response = await fetch(
-      `${backendURL}/${name}`
-    );
-    console.log("🚀 ~ file: App.tsx:60 ~ resolveBnb2 ~ response:", response)
-    const data = await response.text()
+    const response = await fetch(`${backendURL}/${name}`);
+    console.log("🚀 ~ file: App.tsx:60 ~ resolveBnb2 ~ response:", response);
+    const data = await response.text();
     console.log("🚀 ~ file: App.tsx:70 ~ resolveBnb ~ data:", data);
-    
+
     WebApp.showAlert("resolved");
   }
+
+  const getSuggestions = async () => {
+    streamr.subscribe(WEATHER_STREAM_ID, (message) => {
+      const weatherData = message as WeatherDataPoint;
+      // Store the incoming message in the data buffer
+      dataBuffer.push(weatherData);
+      console.log(dataBuffer.length);
+
+      // Check if the buffer has 60 data points
+      if (dataBuffer.length === 60) {
+        // Calculating the averages for ai model
+        const weatherAverages = computeAverages(dataBuffer);
+
+        // calling openAi and publishing report to ai stream
+        generateAndPublishWeatherReport(weatherAverages);
+
+        // Clear the buffer for the next set of 60 data points
+        dataBuffer = [];
+      }
+    });
+  };
 
   return (
     <>
