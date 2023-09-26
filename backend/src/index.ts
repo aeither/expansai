@@ -12,7 +12,7 @@ interface TransactionData {
 }
 
 const app = new Elysia()
-  .use(cors())
+  .use(cors({ origin: true }))
   .get("/", async () => {
     // const options = {
     //   method: "GET",
