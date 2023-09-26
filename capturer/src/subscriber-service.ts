@@ -1,6 +1,8 @@
 import StreamrClient from "streamr-client";
 import Replicate from "replicate";
 import dotenv from "dotenv";
+import { db } from "./simple-connect";
+import { user } from "./schema/schema";
 dotenv.config();
 
 if (!process.env.REPLICATE_API_TOKEN)
@@ -79,18 +81,19 @@ export const generateDomains = async () => {
   return arrayToPhrase(output as string[]);
 };
 
-export const startPublisherService = async () => {
+export const startSubscriberService = async () => {
   const streamr: StreamrClient = new StreamrClient({
     auth: {
       privateKey: process.env.PRIVATE_KEY || "",
     },
   });
 
-  // We prentend that 1 sec equals 1 min in this example
-  setInterval(async () => {
-    const domainNames = await generateDomains();
-    await streamr.publish(DOMAIN_STREAM_ID, domainNames);
-    console.log("published:", domainNames);
-  }, 30_000);
+  streamr.subscribe(DOMAIN_STREAM_ID, async (message) => {
+    console.log(message)
+    const result = await db
+      .insert(user)
+      .values([
+        { name: "luigi", role: "bnb", createdAt: new Date(), updatedAt: new Date() },
+      ]);
+  });
 };
-startPublisherService();

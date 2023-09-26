@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { startPublisherService } from "./publisher-service";
+import { startSubscriberService } from "./subscriber-service";
 import { db, getExampleTable } from "./simple-connect";
 import { user } from "./schema/schema";
 
@@ -36,4 +36,4 @@ app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-startPublisherService();
+startSubscriberService();
