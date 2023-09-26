@@ -44,7 +44,20 @@ function arrayToPhrase(inputArray: Array<string>) {
   const phrase = inputArray.join("");
 
   // Remove leading and trailing whitespace and return the result
-  return phrase.trim();
+  const domains = extractDomains(phrase.trim());
+  return domains;
+}
+
+function extractDomains(inputText: string) {
+  const regex = /\b(.*?)\.bnb\b/g;
+  const matches = [];
+  let match;
+
+  while ((match = regex.exec(inputText)) !== null) {
+    matches.push(match[1]);
+  }
+
+  return matches;
 }
 
 // Function to generate a single data point

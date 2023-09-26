@@ -9,9 +9,8 @@ import {
 import WebApp from "@twa-dev/sdk";
 import { MainButton } from "@twa-dev/sdk/react";
 import { useState } from "react";
-import { StreamrClient } from 'streamr-client';
+import { StreamrClient } from "streamr-client";
 import "./App.css";
-
 
 if (!import.meta.env.VITE_BACKEND_URL)
   throw new Error("VITE_BACKEND_URL not found");
@@ -69,29 +68,24 @@ function App() {
   }
 
   const getSuggestions = async () => {
-    streamr.subscribe(WEATHER_STREAM_ID, (message) => {
-      const weatherData = message as WeatherDataPoint;
-      // Store the incoming message in the data buffer
-      dataBuffer.push(weatherData);
-      console.log(dataBuffer.length);
+    const streamr = new StreamrClient({
+      auth: {
+        privateKey: process.env.PRIVATE_KEY || "",
+      },
+    });
 
-      // Check if the buffer has 60 data points
-      if (dataBuffer.length === 60) {
-        // Calculating the averages for ai model
-        const weatherAverages = computeAverages(dataBuffer);
+    const DOMAIN_STREAM_ID =
+      "0x5052936d3c98d2d045da4995d37b0dae80c6f07f/test-weather";
 
-        // calling openAi and publishing report to ai stream
-        generateAndPublishWeatherReport(weatherAverages);
-
-        // Clear the buffer for the next set of 60 data points
-        dataBuffer = [];
-      }
+    streamr.subscribe(DOMAIN_STREAM_ID, (message) => {
+      console.log("message: ", message);
     });
   };
 
   return (
     <>
       <div>
+        <button onClick={() => getSuggestions()}>getSuggestions</button>
         <button onClick={() => resolveBnb2("felix.bnb")}>resolveBnb2</button>
 
         <button onClick={() => WebApp.expand()}>Expand</button>
