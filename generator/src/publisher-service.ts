@@ -54,7 +54,21 @@ function extractDomains(inputText: string) {
   let match;
 
   while ((match = regex.exec(inputText)) !== null) {
-    matches.push(match[1]);
+    // remove first 3 letters
+    const modifiedMatch = match[1].substring(3);
+
+    // add .bnb at the end of the string
+    const modifiedMatchWithExtension = modifiedMatch + ".bnb";
+
+    // convert to lower case
+    const finalMatch = modifiedMatchWithExtension.toLowerCase();
+
+    matches.push(finalMatch);
+  }
+
+  // Remove the first item from the matches array
+  if (matches.length > 0) {
+    matches.shift();
   }
 
   return matches;
@@ -71,7 +85,7 @@ export const generateDomains = async () => {
     "meta/llama-2-70b-chat:02e509c789964a7ea8736978a43525956ef40397be9033abf9fd2badfe68c9e3",
     {
       input: {
-        prompt: `Show 10 domain name ideas ending in .bnb related to ${randomCategory}`,
+        prompt: `Show 5 domain name ideas ending in .bnb related to ${randomCategory}`,
       },
     }
   );
