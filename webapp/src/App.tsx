@@ -1,13 +1,5 @@
-import {
-  Cell,
-  ImageAvatar,
-  InitialsAvatar,
-  Page,
-  Section,
-  Switch,
-} from "@twa-dev/mark42";
 import WebApp from "@twa-dev/sdk";
-import { BackButton, MainButton } from "@twa-dev/sdk/react";
+import { MainButton } from "@twa-dev/sdk/react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import { User } from "./schema";
@@ -120,12 +112,22 @@ function App() {
 
   return (
     <>
+      <MainButton
+        text="More"
+        onClick={() => WebApp.openLink("https://space.id")}
+      />
+      {/* <BackButton onClick={() => alert("back")} /> */}
+
       <div className="banner">
-        <img src="expansai_tg_logo.png" alt="App Banner" />
+        <img
+          className="rounded-md"
+          src="expansai_tg_logo.png"
+          alt="App Banner"
+        />
       </div>
       <div>
         <div className="py-4">
-          <h2 className="text-2xl font-bold">AI Domain Names</h2>
+          <h2 className="text-2xl font-bold pb-2">AI Domain Names</h2>
           <ul style={{ listStyle: "none", paddingLeft: "0" }}>
             {suggestions
               .slice()
@@ -148,7 +150,7 @@ function App() {
                       resolveBnb(suggestion.name || "felix.bnb");
                     }}
                     style={{ marginLeft: "auto" }}
-                    className="bg-orange-400 w-8 rounded-md"
+                    className="bg-orange-400 w-10 rounded-md"
                   >
                     🔍
                   </span>
@@ -156,59 +158,6 @@ function App() {
               ))}
           </ul>
         </div>
-
-        <button onClick={() => WebApp.expand()}>Expand</button>
-        <button
-          onClick={() => {
-            WebApp.initData;
-            console.log(
-              "🚀 ~ file: App.tsx:63 ~ App ~ ebApp.initData:",
-              WebApp.initData
-            );
-          }}
-        >
-          initData
-        </button>
-        <button onClick={() => WebApp.showScanQrPopup({ text: "hello" })}>
-          showScanQrPopup
-        </button>
-        <button onClick={() => WebApp.switchInlineQuery("switch to inline")}>
-          switchInlineQuery
-        </button>
-
-        <MainButton text="Close" onClick={() => WebApp.close()} />
-        {/* <BackButton onClick={() => alert("back")} /> */}
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <button type="button" onClick={() => WebApp.showAlert("Hey there!")}>
-          click
-        </button>
-        <button type="button" onClick={action1}>
-          click1
-        </button>
-        <button type="button" onClick={action2}>
-          click2
-        </button>
-        <button type="button" onClick={action3}>
-          click3
-        </button>
-
-        <InitialsAvatar
-          entityId={12345}
-          entityName="Artur Stambultsian"
-          theme="apple"
-          className="MyAvatar"
-          style={{ marginRight: 10 }}
-        />
-
-        <ImageAvatar
-          size={100}
-          src="https://cdn4.telegram-cdn.org/file/GSG98YPeYhPH42R0BlvQT7di6ha48LJI4lZwbQ7q7f_TYAC5FwRrEBTlyaVij-ylfflg4aU0R8AtL8UZmG9R6sX0S12R_zLTuEUlaV99qXZm_OcaFqdknYCbxb7-XuVCy7c7mPaWagdFuF_T2-fopi1dzsrvW6E6ff8qFhQqIrrvtBdq7jO5829aCEpSIHi9QqFuw6l1WuOWfoq1LjjV7kq2wSfo_uOlN4PP-hFPAL1wklwnTw4NPE-Mfu9gFd472JUN9e299UP2f2jeZnvst2qX0Go6fb81gewClahABP-veeqGrVBxVphfixV3KJulKdt0CCU7KhFM7e-Gd4-qug.jpg"
-        />
       </div>
     </>
   );
