@@ -127,30 +127,33 @@ function App() {
         <div className="py-4">
           <h2 className="text-2xl font-bold">AI Domain Names</h2>
           <ul style={{ listStyle: "none", paddingLeft: "0" }}>
-            {suggestions.map((suggestion) => (
-              <li
-                key={suggestion.id}
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "left",
-                  padding: "5px 0",
-                }}
-              >
-                <span>{suggestion.name}</span>
-                <span
-                  onClick={() => {
-                    console.log("looking");
-                    // WebApp.showAlert("show");
-                    resolveBnb(suggestion.name || "felix.bnb");
+            {suggestions
+              .slice()
+              .reverse()
+              .map((suggestion) => (
+                <li
+                  key={suggestion.id}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "left",
+                    padding: "5px 0",
                   }}
-                  style={{ marginLeft: "auto" }}
-                  className="bg-orange-400 w-8 rounded-md"
                 >
-                  🔍
-                </span>
-              </li>
-            ))}
+                  <span>{suggestion.name}</span>
+                  <span
+                    onClick={() => {
+                      console.log("looking");
+                      // WebApp.showAlert("show");
+                      resolveBnb(suggestion.name || "felix.bnb");
+                    }}
+                    style={{ marginLeft: "auto" }}
+                    className="bg-orange-400 w-8 rounded-md"
+                  >
+                    🔍
+                  </span>
+                </li>
+              ))}
           </ul>
         </div>
 
@@ -173,7 +176,7 @@ function App() {
           switchInlineQuery
         </button>
 
-        {/* <MainButton text="Close" onClick={() => WebApp.close()} /> */}
+        <MainButton text="Close" onClick={() => WebApp.close()} />
         {/* <BackButton onClick={() => alert("back")} /> */}
       </div>
       <h1>Vite + React</h1>
