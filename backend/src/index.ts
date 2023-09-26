@@ -3,6 +3,7 @@ import { Elysia } from "elysia";
 import Replicate from "replicate";
 // import StreamrClient from "streamr-client";
 import dotenv from "dotenv";
+import { getTable } from "./schema";
 dotenv.config();
 
 interface TransactionData {
@@ -38,9 +39,11 @@ const app = new Elysia()
       //     },
       //   }
       // );
-      console.log("domain names generated");
 
-      return "hello";
+      console.log("domain names generated");
+      const data = await getTable();
+
+      return data;
     } catch (err) {
       console.error(err);
       throw err; // Re-throw the error to propagate it to the caller, if needed
@@ -60,5 +63,3 @@ const app = new Elysia()
 console.log(
   `🦊 Elysia is running at on port ${app.server?.port}... \n Open: http://localhost:8080`
 );
-
-
