@@ -58,22 +58,17 @@ function App() {
     WebApp.CloudStorage.getItem("test", (_, result) => console.log(result));
   };
 
-  // async function resolveBnb(name: string) {
-  //   let sid;
-  //   const rpc = "https://data-seed-prebsc-1-s1.binance.org:8545/";
-  //   const provider = new providers.JsonRpcProvider(rpc);
-  //   sid = new SID({ provider, sidAddress: SIDfunctions.getSidAddress("97") });
-  //   const address = await sid.name(name).getAddress(); // 0x123
-  //   console.log("name: %s, address: %s", name, address);
-  // }
-
-  async function resolveBnb2(name: string) {
+  async function resolveBnb(name: string) {
     const response = await fetch(`${backendURL}/${name}`);
-    console.log("🚀 ~ file: App.tsx:60 ~ resolveBnb2 ~ response:", response);
     const data = await response.text();
-    console.log("🚀 ~ file: App.tsx:70 ~ resolveBnb ~ data:", data);
-
-    WebApp.showAlert("resolved");
+    console.log(data);
+    if (data === "0x0000000000000000000000000000000000000000") {
+      console.log("The domain is available!!!");
+      WebApp.showAlert("The domain is available!!!");
+    } else {
+      console.log(`The domain is taken by ${data}`);
+      WebApp.showAlert(`The domain is taken by ${data}`);
+    }
   }
 
   const getSuggestions = async () => {
@@ -144,40 +139,20 @@ function App() {
               >
                 <span>{suggestion.name}</span>
                 <span
-                  onClick={() => console.log("hello world")}
+                  onClick={() => {
+                    console.log("looking");
+                    // WebApp.showAlert("show");
+                    resolveBnb(suggestion.name || "felix.bnb");
+                  }}
                   style={{ marginLeft: "auto" }}
-                  className="bg-orange-400 w-8"
+                  className="bg-orange-400 w-8 rounded-md"
                 >
-                  x
+                  🔍
                 </span>
               </li>
             ))}
           </ul>
         </div>
-
-        <Page mode="secondary">
-          <Section
-            className="w-full flex flex-col"
-            description="Share your contacts with the community. It will help other members to reach you faster."
-            header="Public contacts"
-          >
-            <Cell
-              className="w-full"
-              after={<button>🚨</button>}
-              description="@Stambultsian"
-            >
-              Twitter
-            </Cell>
-            <Cell after={<Switch />} description="@artursupertramp">
-              Facebook
-            </Cell>
-            <Cell after={<Switch checked />} description="@ArthurStam">
-              Telegram
-            </Cell>
-          </Section>
-        </Page>
-
-        <button onClick={() => resolveBnb2("felix.bnb")}>resolveBnb2</button>
 
         <button onClick={() => WebApp.expand()}>Expand</button>
         <button
