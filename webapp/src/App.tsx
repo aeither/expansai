@@ -8,14 +8,21 @@ import {
 } from "@twa-dev/mark42";
 import WebApp from "@twa-dev/sdk";
 import { MainButton } from "@twa-dev/sdk/react";
-import { useState } from "react";
-import { StreamrClient } from "streamr-client";
+import { useEffect, useState } from "react";
 import "./App.css";
+import { User } from "./schema";
 
 if (!import.meta.env.VITE_BACKEND_URL)
   throw new Error("VITE_BACKEND_URL not found");
-const backendURL = import.meta.env.VITE_BACKEND_URL;
+let backendURL: string;
 
+if (import.meta.env.DEV) {
+  // Running locally, use localhost
+  backendURL = "http://localhost:8080"; // Change the port as needed
+} else {
+  // Deployed, use the deployed URL
+  backendURL = import.meta.env.VITE_BACKEND_URL;
+}
 // // 1. Get projectId∏
 // if (!import.meta.env.VITE_PROJECT_ID)
 //   throw new Error("VITE_PROJECT_ID not found");
@@ -36,6 +43,8 @@ WebApp.ready();
 
 function App() {
   const [count, setCount] = useState(0);
+  const [suggestions, setSuggestions] = useState<User[]>([]);
+
   // const { open } = useWeb3Modal();
 
   const action1 = async () => {
@@ -68,24 +77,36 @@ function App() {
   }
 
   const getSuggestions = async () => {
-    const streamr = new StreamrClient({
-      auth: {
-        privateKey: process.env.PRIVATE_KEY || "",
-      },
-    });
-
-    const DOMAIN_STREAM_ID =
-      "0x5052936d3c98d2d045da4995d37b0dae80c6f07f/test-weather";
-
-    streamr.subscribe(DOMAIN_STREAM_ID, (message) => {
-      console.log("message: ", message);
-    });
+    try {
+      const response = await fetch(backendURL);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data = await response.json();
+      setSuggestions(data); // Update state with fetched data
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
+  useEffect(() => {
+    getSuggestions(); // Call the fetch function when the component mounts
+  }, []); // The empty dependency array ensures this effect runs once when the component mounts
 
   return (
     <>
       <div>
         <button onClick={() => getSuggestions()}>getSuggestions</button>
+        <div>
+          <h1>Suggestions</h1>
+          <ul>
+            {suggestions.map((suggestion) => (
+              <li key={suggestion.id}>
+                {suggestion.name} - {suggestion.role}
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <button onClick={() => resolveBnb2("felix.bnb")}>resolveBnb2</button>
 
         <button onClick={() => WebApp.expand()}>Expand</button>
@@ -156,13 +177,7 @@ function App() {
           size={100}
           src="https://cdn4.telegram-cdn.org/file/GSG98YPeYhPH42R0BlvQT7di6ha48LJI4lZwbQ7q7f_TYAC5FwRrEBTlyaVij-ylfflg4aU0R8AtL8UZmG9R6sX0S12R_zLTuEUlaV99qXZm_OcaFqdknYCbxb7-XuVCy7c7mPaWagdFuF_T2-fopi1dzsrvW6E6ff8qFhQqIrrvtBdq7jO5829aCEpSIHi9QqFuw6l1WuOWfoq1LjjV7kq2wSfo_uOlN4PP-hFPAL1wklwnTw4NPE-Mfu9gFd472JUN9e299UP2f2jeZnvst2qX0Go6fb81gewClahABP-veeqGrVBxVphfixV3KJulKdt0CCU7KhFM7e-Gd4-qug.jpg"
         />
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   );
 }
