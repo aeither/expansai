@@ -7,7 +7,7 @@ import {
   Switch,
 } from "@twa-dev/mark42";
 import WebApp from "@twa-dev/sdk";
-import { MainButton } from "@twa-dev/sdk/react";
+import { BackButton, MainButton } from "@twa-dev/sdk/react";
 import { useEffect, useState } from "react";
 import "./App.css";
 import { User } from "./schema";
@@ -44,7 +44,7 @@ WebApp.ready();
 function App() {
   const [count, setCount] = useState(0);
   const [suggestions, setSuggestions] = useState<User[]>([]);
-
+  const [status, setStatus] = useState("");
   // const { open } = useWeb3Modal();
 
   const action1 = async () => {
@@ -78,11 +78,42 @@ function App() {
 
   const getSuggestions = async () => {
     try {
-      const response = await fetch(backendURL);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
+      // const response = await fetch(backendURL);
+      // if (!response.ok) {
+      //   throw new Error("Network response was not ok");
+      // }
+      // const data = await response.json();
+
+      const data = [
+        {
+          id: 2,
+          name: "luigi",
+          role: null,
+          createdAt: 0,
+          updatedAt: 0,
+        },
+        {
+          id: 3,
+          name: null,
+          role: null,
+          createdAt: null,
+          updatedAt: null,
+        },
+        {
+          id: 4,
+          name: "fitnessescape.bnb",
+          role: "bnb",
+          createdAt: 0,
+          updatedAt: 0,
+        },
+        {
+          id: 5,
+          name: "workoutwave.bnb",
+          role: "bnb",
+          createdAt: 0,
+          updatedAt: 0,
+        },
+      ];
       setSuggestions(data); // Update state with fetched data
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -94,18 +125,57 @@ function App() {
 
   return (
     <>
+      <div className="banner">
+        <img src="expansai_tg_logo.png" alt="App Banner" />
+      </div>
       <div>
-        <button onClick={() => getSuggestions()}>getSuggestions</button>
-        <div>
-          <h1>Suggestions</h1>
-          <ul>
+        <div className="py-4">
+          <h2 className="text-2xl font-bold">AI Domain Names</h2>
+          <ul style={{ listStyle: "none", paddingLeft: "0" }}>
             {suggestions.map((suggestion) => (
-              <li key={suggestion.id}>
-                {suggestion.name} - {suggestion.role}
+              <li
+                key={suggestion.id}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "left",
+                  padding: "5px 0",
+                }}
+              >
+                <span>{suggestion.name}</span>
+                <span
+                  onClick={() => console.log("hello world")}
+                  style={{ marginLeft: "auto" }}
+                  className="bg-orange-400 w-8"
+                >
+                  x
+                </span>
               </li>
             ))}
           </ul>
         </div>
+
+        <Page mode="secondary">
+          <Section
+            className="w-full flex flex-col"
+            description="Share your contacts with the community. It will help other members to reach you faster."
+            header="Public contacts"
+          >
+            <Cell
+              className="w-full"
+              after={<button>🚨</button>}
+              description="@Stambultsian"
+            >
+              Twitter
+            </Cell>
+            <Cell after={<Switch />} description="@artursupertramp">
+              Facebook
+            </Cell>
+            <Cell after={<Switch checked />} description="@ArthurStam">
+              Telegram
+            </Cell>
+          </Section>
+        </Page>
 
         <button onClick={() => resolveBnb2("felix.bnb")}>resolveBnb2</button>
 
@@ -128,24 +198,8 @@ function App() {
           switchInlineQuery
         </button>
 
-        <MainButton text="Close" onClick={() => WebApp.close()} />
+        {/* <MainButton text="Close" onClick={() => WebApp.close()} /> */}
         {/* <BackButton onClick={() => alert("back")} /> */}
-        <Page mode="secondary">
-          <Section
-            description="Share your contacts with the community. It will help other members to reach you faster."
-            header="Public contacts"
-          >
-            <Cell after={<Switch />} description="@Stambultsian">
-              Twitter
-            </Cell>
-            <Cell after={<Switch />} description="@artursupertramp">
-              Facebook
-            </Cell>
-            <Cell after={<Switch checked />} description="@ArthurStam">
-              Telegram
-            </Cell>
-          </Section>
-        </Page>
       </div>
       <h1>Vite + React</h1>
       <div className="card">
