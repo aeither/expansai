@@ -15,40 +15,11 @@ if (import.meta.env.DEV) {
   // Deployed, use the deployed URL
   backendURL = import.meta.env.VITE_BACKEND_URL;
 }
-// // 1. Get projectId∏
-// if (!import.meta.env.VITE_PROJECT_ID)
-//   throw new Error("VITE_PROJECT_ID not found");
-// const projectId = import.meta.env.VITE_PROJECT_ID;
-
-// // 2. Create wagmiConfig
-// const chains = [mainnet, arbitrum];
-// const wagmiConfig = defaultWagmiConfig({
-//   chains,
-//   projectId,
-//   appName: "Expansai",
-// });
-
-// // 3. Create modal
-// createWeb3Modal({ wagmiConfig, projectId, chains });
 
 WebApp.ready();
 
 function App() {
-  const [count, setCount] = useState(0);
   const [suggestions, setSuggestions] = useState<User[]>([]);
-  const [status, setStatus] = useState("");
-  // const { open } = useWeb3Modal();
-
-  const action1 = async () => {
-    WebApp.HapticFeedback.impactOccurred("light");
-  };
-  const action2 = async () => {
-    WebApp.CloudStorage.setItem("test", Math.random().toFixed(2));
-  };
-
-  const action3 = async () => {
-    WebApp.CloudStorage.getItem("test", (_, result) => console.log(result));
-  };
 
   async function resolveBnb(name: string) {
     const response = await fetch(`${backendURL}/${name}`);
@@ -65,42 +36,42 @@ function App() {
 
   const getSuggestions = async () => {
     try {
-      // const response = await fetch(backendURL);
-      // if (!response.ok) {
-      //   throw new Error("Network response was not ok");
-      // }
-      // const data = await response.json();
+      const response = await fetch(backendURL);
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      const data: User[] = await response.json();
 
-      const data = [
-        {
-          id: 2,
-          name: "luigi",
-          role: null,
-          createdAt: 0,
-          updatedAt: 0,
-        },
-        {
-          id: 3,
-          name: null,
-          role: null,
-          createdAt: null,
-          updatedAt: null,
-        },
-        {
-          id: 4,
-          name: "fitnessescape.bnb",
-          role: "bnb",
-          createdAt: 0,
-          updatedAt: 0,
-        },
-        {
-          id: 5,
-          name: "workoutwave.bnb",
-          role: "bnb",
-          createdAt: 0,
-          updatedAt: 0,
-        },
-      ];
+      // const data = [
+      //   {
+      //     id: 2,
+      //     name: "luigi",
+      //     role: null,
+      //     createdAt: 0,
+      //     updatedAt: 0,
+      //   },
+      //   {
+      //     id: 3,
+      //     name: null,
+      //     role: null,
+      //     createdAt: null,
+      //     updatedAt: null,
+      //   },
+      //   {
+      //     id: 4,
+      //     name: "fitnessescape.bnb",
+      //     role: "bnb",
+      //     createdAt: 0,
+      //     updatedAt: 0,
+      //   },
+      //   {
+      //     id: 5,
+      //     name: "workoutwave.bnb",
+      //     role: "bnb",
+      //     createdAt: 0,
+      //     updatedAt: 0,
+      //   },
+      // ];
       setSuggestions(data); // Update state with fetched data
     } catch (error) {
       console.error("Error fetching data:", error);
