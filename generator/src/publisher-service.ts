@@ -93,4 +93,3 @@ export const startPublisherService = async () => {
     console.log("published:", domainNames);
   }, 30_000);
 };
-startPublisherService();
