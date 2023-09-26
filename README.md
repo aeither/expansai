@@ -1,7 +1,7 @@
 # expansai
 
 <div align="center">
-  <img src="https://github.com/aeither/expansai/assets/36173828/ecbb3fdc-360e-4735-aa64-0b4301e4d7f8" alt="Logo" width="580" >
+  <img src="https://github.com/aeither/expansai/assets/36173828/73e90f0b-1f31-48c7-86a2-4c29c7385735" alt="Logo" width="580" >
 
 <h3 align="center"></h3>
   <p align="center">
@@ -27,8 +27,7 @@ Telegram Mini App, where unique domain names are published. Users can explore an
 
 # Tech
 
-![MindMap](https://github.com/aeither/expansai/assets/36173828/cb924e0d-9aea-46f0-843f-a93ead3286fe)
-
+![mindmap](https://github.com/aeither/expansai/assets/36173828/591e3d1a-d5c0-4b0c-9721-d0b02b2d287a)
 
 # All Repositories
 
@@ -38,8 +37,9 @@ https://github.com/aeither/expansai-bot
 
 # Screenshots
 
-![miniapp](https://github.com/aeither/expansai/assets/36173828/fb7f4b18-9315-4c62-81ea-3cbb9826972f)
+![miniapp](https://github.com/aeither/expansai/assets/36173828/c1d3533d-5244-463a-93e3-7a8e2049ec88)
 
-![expansai-database](https://github.com/aeither/expansai/assets/36173828/a203bbed-c00e-4434-be36-979ad4a82eec)
+![streamr-names](https://github.com/aeither/expansai/assets/36173828/802de0b6-0b5e-407d-82f8-d2016c549863)
 
-![streamr-names](https://github.com/aeither/expansai/assets/36173828/75caa5b9-4323-42c5-adef-ba1313691cd4)
+![expansai-database](https://github.com/aeither/expansai/assets/36173828/79f974bb-01f6-4844-9f58-a3a45b8c2c54)
+
